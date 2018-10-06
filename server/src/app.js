@@ -9,72 +9,49 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.get("/icd10", (req, res) => {
-  let resp = [
+  let { query } = req;
+  let all = [
+    { name: "Tuberculosis of spine", code: "A18.01" },
+    { name: "Tuberculous arthritis of other joints", code: "A18.02" },
+    { name: "Tuberculosis of other bones", code: "A18.03" },
+    { name: "Other musculoskeletal tuberculosis", code: "A18.09" },
     {
-      data: [
-        {
-          name: "Acute gastroenteropathy due to other small round viruses",
-          code: "A08.19"
-        },
-        { name: "Tuberculosis of other male genital organs", code: "A18.15" },
-        {
-          name: "Tuberculous female pelvic inflammatory disease",
-          code: "A18.17"
-        },
-        { name: "Tuberculosis of other female genital organs", code: "A18.18" },
-        { name: "Secondary syphilitic female pelvic disease", code: "A51.42" },
-        {
-          name: "Gonococcal infection of other male genital organs",
-          code: "A54.23"
-        },
-        {
-          name: "Gonococcal female pelvic inflammatory disease",
-          code: "A54.24"
-        },
-        {
-          name: "Chlamydial female pelvic inflammatory disease",
-          code: "A56.11"
-        },
-        {
-          name: "Herpesviral infection of other male genital organs",
-          code: "A60.02"
-        },
-        { name: "Smallpox", code: "B03" },
-        {
-          name: "Plasmodium falciparum malaria with cerebral complications",
-          code: "B50.0"
-        },
-        {
-          name: "Other severe and complicated Plasmodium falciparum malaria",
-          code: "B50.8"
-        },
-        { name: "Plasmodium falciparum malaria, unspecified", code: "B50.9" },
-        {
-          name: "Plasmodium vivax malaria with rupture of spleen",
-          code: "B51.0"
-        },
-        {
-          name: "Plasmodium vivax malaria with other complications",
-          code: "B51.8"
-        },
-        {
-          name: "Plasmodium vivax malaria without complication",
-          code: "B51.9"
-        },
-        { name: "Plasmodium malariae malaria with nephropathy", code: "B52.0" },
-        {
-          name: "Plasmodium malariae malaria with other complications",
-          code: "B52.8"
-        },
-        {
-          name: "Plasmodium malariae malaria without complication",
-          code: "B52.9"
-        },
-        { name: "Plasmodium ovale malaria", code: "B53.0" }
-      ]
-    }
+      name: "Tuberculosis of genitourinary system, unspecified",
+      code: "A18.10"
+    },
+    { name: "Tuberculosis of kidney and ureter", code: "A18.11" },
+    { name: "Tuberculosis of bladder", code: "A18.12" },
+    { name: "Tuberculosis of other urinary organs", code: "A18.13" },
+    { name: "Tuberculosis of prostate", code: "A18.14" },
+    { name: "Tuberculosis of other male genital organs", code: "A18.15" },
+    { name: "Tuberculosis of cervix", code: "A18.16" },
+    {
+      name: "Tuberculous female pelvic inflammatory disease",
+      code: "A18.17"
+    },
+    { name: "Tuberculosis of other female genital organs", code: "A18.18" },
+    { name: "Tuberculous peripheral lymphadenopathy", code: "A18.2" },
+    { name: "Tuberculous peritonitis", code: "A18.31" },
+    { name: "Tuberculous enteritis", code: "A18.32" },
+    { name: "Retroperitoneal tuberculosis", code: "A18.39" },
+    { name: "Tuberculosis of skin and subcutaneous tissue", code: "A18.4" },
+    { name: "Tuberculosis of eye, unspecified", code: "A18.50" },
+    { name: "Tuberculous episcleritis", code: "A18.51" }
   ];
+
+  let data = all.filter(x => {
+    const searchTerm = query.q.toUpperCase();
+    return (
+      x.code.toUpperCase().includes(searchTerm) ||
+      x.name.toUpperCase().includes(searchTerm)
+    );
+  });
+
+  let resp = {
+    q: query.q,
+    data
+  };
   res.send(resp);
 });
 
-app.listen(process.env.PORT || 8081);
+app.listen(process.env.PORT || 8082);

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <HelloWorld selected=""/>
+    <HelloWorld initValue="A18.02" dataUrl="http://localhost:8082/icd10"/>
   </div>
 </template>
 
