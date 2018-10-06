@@ -1,8 +1,11 @@
 <template>
-  <v-select :options="options"
+  <v-select label="name"
+            :options="options"
             :filterable="false"
-            label="name"
-            @search="onSearch" v-model="selected">
+            :value="localSelected"
+            @search="onSearch"
+            @input="updateSelected"
+            >
     <template slot="no-options">
       Please enter 3 or more characters
     </template>
@@ -27,7 +30,7 @@ export default {
   name: "HelloWorld",
   data: function() {
     return {
-      selected: null,
+      localSelected: null,
       options: []
     };
   },
@@ -39,6 +42,10 @@ export default {
     "v-select": vSelect
   },
   methods: {
+    updateSelected(newValue) {
+      this.localSelected = newValue;
+      this.$emit("input", newValue);
+    },
     onSearch(search, loading) {
       if (search.length >= 3) {
         loading(true);
@@ -54,7 +61,7 @@ export default {
   },
   created: function() {
     fetch(`${this.dataUrl}?q=${escape(this.initValue)}`).then(res => {
-      res.json().then(json => (this.selected = json.data[0]));
+      res.json().then(json => (this.localSelected = json.data[0]));
     });
   }
 };

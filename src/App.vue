@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <HelloWorld initValue="A18.02" dataUrl="http://localhost:8082/icd10"/>
+    <HelloWorld initValue="A18.02" dataUrl="http://localhost:8082/icd10" v-model="value"/>
   </div>
 </template>
 
@@ -11,6 +11,9 @@ export default {
   name: "app",
   components: {
     HelloWorld
+  },
+  data: function() {
+    return { value: "A18.02" };
   }
 };
 </script>
