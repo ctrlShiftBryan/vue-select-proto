@@ -5,6 +5,7 @@
             :value="localSelected"
             @search="onSearch"
             @input="updateSelected"
+            searchable=false
             >
     <template slot="no-options">
       Please enter 3 or more characters
@@ -43,7 +44,7 @@ export default {
   },
   methods: {
     updateSelected(newValue) {
-      this.$emit("input", newValue);
+      this.$emit("input", newValue.code);
     },
     onSearch(search, loading) {
       if (search.length >= 3) {
@@ -59,6 +60,8 @@ export default {
     }
   },
   created: function() {
+    // the initial value is just the value with no label
+    // so we must make and ajax call to get the label too
     fetch(`${this.dataUrl}?q=${escape(this.value)}`, {
       // credentials: "include"
     }).then(res => {
