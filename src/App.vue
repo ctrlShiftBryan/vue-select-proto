@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <HelloWorld dataUrl="http://localhost:8082/icd10" v-model="value"/>
+    <IcdSelect dataUrl="http://localhost:8082/icd10" v-model="value"/>
   </div>
 </template>
 
