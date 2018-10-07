@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import IcdSelect from "./components/IcdSelect.vue";
 
 export default {
   name: "app",
   components: {
-    HelloWorld
+    IcdSelect
   },
   data: function() {
     return { value: "A18.02" };
