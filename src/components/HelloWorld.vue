@@ -35,15 +35,14 @@ export default {
     };
   },
   props: {
-    initValue: {},
-    dataUrl: {}
+    dataUrl: {},
+    value: {}
   },
   components: {
     "v-select": vSelect
   },
   methods: {
     updateSelected(newValue) {
-      this.localSelected = newValue;
       this.$emit("input", newValue);
     },
     onSearch(search, loading) {
@@ -60,7 +59,9 @@ export default {
     }
   },
   created: function() {
-    fetch(`${this.dataUrl}?q=${escape(this.initValue)}`).then(res => {
+    fetch(`${this.dataUrl}?q=${escape(this.value)}`, {
+      // credentials: "include"
+    }).then(res => {
       res.json().then(json => (this.localSelected = json.data[0]));
     });
   }
