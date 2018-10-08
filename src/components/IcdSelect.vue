@@ -43,8 +43,12 @@ export default {
     updateSelected(newValue) {
       this.$emit("input", newValue.code);
     },
+    // because we marked this as async
+    // we can not await other promises
+    // like fetch and json inside the method
     async onSearch(queryTerm, loading) {
       if (queryTerm.length >= 3) {
+        loading(true);
         try {
           const response = await fetch(
             `${this.dataUrl}?q=${escape(queryTerm)}`
@@ -57,14 +61,12 @@ export default {
       }
     }
   },
-  created: function() {
+  async created() {
     // the initial value is just the value with no label
     // so we must make and ajax call to get the label too
-    fetch(`${this.dataUrl}?q=${escape(this.value)}`, {
-      // credentials: "include"
-    }).then(res => {
-      res.json().then(json => (this.localSelected = json.data[0]));
-    });
+    const response = await fetch(`${this.dataUrl}?q=${escape(this.value)}`);
+    const json = await response.json();
+    this.localSelected = json.data[0];
   }
 };
 </script>
