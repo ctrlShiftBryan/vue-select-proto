@@ -1,17 +1,19 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <IcdSelect dataUrl="http://localhost:8082/icd10" v-model="value"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import IcdSelect from "./components/IcdSelect.vue";
 
 export default {
   name: "app",
   components: {
-    HelloWorld
+    IcdSelect
+  },
+  data: function() {
+    return { value: "A18.02" };
   }
 };
 </script>
