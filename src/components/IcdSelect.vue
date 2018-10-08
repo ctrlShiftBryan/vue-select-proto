@@ -5,7 +5,6 @@
             :value="localSelected"
             @search="onSearch"
             @input="updateSelected"
-            searchable=false
             >
     <template slot="no-options">
       Please enter 3 or more characters
@@ -39,9 +38,7 @@ export default {
     dataUrl: {},
     value: {}
   },
-  components: {
-    "v-select": vSelect
-  },
+  components: { vSelect },
   methods: {
     updateSelected(newValue) {
       this.$emit("input", newValue.code);
@@ -49,14 +46,11 @@ export default {
     onSearch(search, loading) {
       if (search.length >= 3) {
         loading(true);
-        this.search(loading, search, this);
+        fetch(`${this.dataUrl}?q=${escape(search)}`).then(res => {
+          res.json().then(json => (this.options = json.data));
+          loading(false);
+        });
       }
-    },
-    search: (loading, search, vm) => {
-      fetch(`${vm.dataUrl}?q=${escape(search)}`).then(res => {
-        res.json().then(json => (vm.options = json.data));
-        loading(false);
-      });
     }
   },
   created: function() {
