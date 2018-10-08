@@ -43,13 +43,17 @@ export default {
     updateSelected(newValue) {
       this.$emit("input", newValue.code);
     },
-    onSearch(search, loading) {
-      if (search.length >= 3) {
-        loading(true);
-        fetch(`${this.dataUrl}?q=${escape(search)}`).then(res => {
-          res.json().then(json => (this.options = json.data));
+    async onSearch(queryTerm, loading) {
+      if (queryTerm.length >= 3) {
+        try {
+          const response = await fetch(
+            `${this.dataUrl}?q=${escape(queryTerm)}`
+          );
+          const json = await response.json();
+          this.options = json.data;
+        } finally {
           loading(false);
-        });
+        }
       }
     }
   },
